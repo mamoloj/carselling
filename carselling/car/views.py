@@ -11,18 +11,18 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
+
+
+
 def cars_list(request):
     page_name = "List a Car"
     form = CarForm()
-
     if request.method == 'POST':
         form = CarForm(request.POST)
         if form.is_valid():
             data = form.save()
             return redirect('thank_you',data.id)
 
-
-    
     context = {
     'form' : form,
     'page_name' : page_name
@@ -32,7 +32,6 @@ def cars_list(request):
 
 def thank_you(request,id):
     page_name = "Car is now Listed!"
-
     context = {
     'id' : id,
     'page_name' : page_name
@@ -44,8 +43,10 @@ def thank_you(request,id):
 def find_cars(request):
     page_name = "Listed Cars"
 
+    #using django-filters 
     filtered_cars = CarFilter(request.GET,queryset=Car.objects.all().order_by('-created_on'))
     
+    #paginate
     paginated_filtered_cars =  Paginator(filtered_cars.qs,10)
     page_num = request.GET.get('page',1)
     try:
@@ -175,4 +176,4 @@ def send_email(id):
                     round(commision,2),
                     round(net_amount,2)
                 )
-        send_mail(subject, message,settings.DEFAULT_FROM_EMAIL, ['mamoloj@gmail.com'])
+        send_mail(subject, message,settings.DEFAULT_FROM_EMAIL, [settings.DEFAULT_TO_EMAIL])
