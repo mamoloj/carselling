@@ -1,0 +1,23 @@
+{% extends './base.html' %}
+
+{% block content %}
+    <label style="font-weight: bolder; font-size: 12pt;">{{page_name}}</label>
+    <br><br>
+    <form method="post" action="{% url 'login_user' %}" style="width: 40%;">
+        {% csrf_token %}
+        {{form.as_p}}
+        <br>
+        <input type="submit" name="submit" value="Login" class="btn btn-primary form-control">
+    </form>
+    <br>
+    {% if messages %}
+
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <div class="alert alert-success" role="alert">{{ message|escape|safe }}</div>
+         {% elif message.tags == 'error' %}
+             <div class="alert alert-danger" role="alert">{{ message|escape|safe }}</div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% endblock %}

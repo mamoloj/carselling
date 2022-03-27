@@ -1,0 +1,83 @@
+{% extends './base.html' %}
+
+{% block content %}
+    {% load car_extras %}
+    {% load widget_tweaks %}
+    <label style="font-weight: bolder; font-size: 12pt;">{{page_name}}</label>
+    <br><br>
+
+
+    <form method="get">
+        <div class="well">
+          <h4 style="margin-top: 0">Filter</h4>
+          <div class="row">
+            <div class="form-group col-sm-4 col-md-6">
+              {{ filtered_cars.form.make.label_tag }}
+              {% render_field filtered_cars.form.make class="form-control" %}
+            </div>
+            <div class="form-group col-sm-4 col-md-6">
+              {{ filtered_cars.form.year.label_tag }}
+              {% render_field filtered_cars.form.year class="form-control" %}
+            </div>
+          </div>
+          <input type="submit" class="btn btn-success" name="submit">
+          <a class="btn btn-danger" href="{% url 'find_cars' %}?page=1">Clear</a>
+        </div>
+      </form>
+
+
+    {% if not items %}
+    <label>No results found for your filter</label>
+    {% else %}
+    <table class="table table-striped">
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Year</th>
+            <th>Action</th>
+        </thead>
+        <tbody>
+            {% for i in items %}
+            <tr>
+                <td>{{i.id}}</td>
+                <td>{{i.name}}</td>
+                <td>{{i.make}}</td>
+                <td>{{i.model}}</td>
+                <td>{{i.year}}</td>
+                <td>
+                    {% if i.sold %}
+                    <label>SOLD</label>
+                    {% if user.is_authenticated %}
+                    &nbsp;
+                    <a href="{% url 'make_available' i.id %}" class="btn btn-success">Make Available</a>
+                    {% endif %}
+                    {% else %}
+                    <a href="{% url 'buy_car' i.id %}" class="btn btn-primary">Buy</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if items.has_previous %}
+    <a href="{% page_filter_url 1 'page' request.GET.urlencode %}" class="btn btn-outline-info mb-4">First</a>
+    <a href="{% page_filter_url items.previous_page_number 'page' request.GET.urlencode %}" class="btn btn-outline-info mb-4">Prev</a>
+    {% endif %}
+
+    {% for num in items.paginator.page_range %}
+        {% if items.number == num %}
+        <a href="{% page_filter_url num 'page' request.GET.urlencode %}" class="btn btn-info mb-4">{{num}}</a>
+        {% elif num > items.number|add:'-3' and num > items.number|add:'3' %}
+        <a href="{% page_filter_url num 'page' request.GET.urlencode %}" class="btn btn-outline-info mb-4">{{num}}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if items.has_next %}
+    <a href="{% page_filter_url items.next_page_number 'page' request.GET.urlencode %}" class="btn btn-outline-info mb-4">Next</a>
+    <a href="{% page_filter_url items.paginator.num_pages 'page' request.GET.urlencode %}" class="btn btn-outline-info mb-4">Last</a>
+    {% endif %}
+{% endif %}
+{% endblock %}
