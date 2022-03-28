@@ -13,7 +13,7 @@
     EMAIL_HOST_USER = '<paste your gmail account here>'\
     EMAIL_HOST_PASSWORD = '<paste Google password or app password here>'\
     EMAIL_PORT = 587\
-    EMAIL_USE_TLS = True\
+    EMAIL_USE_TLS = True
   
 **Running the app on developement server :**<br />
     - cd to the root directory of the folder : cd:\<other>\<path>\carselling-main <br />
