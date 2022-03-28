@@ -17,6 +17,6 @@
   
 **Running the app on developement server :**<br />
     - cd to the root directory of the folder : cd:\<other>\<path>\carselling-main <br />
-    - enable the virutal env: env\Scripts\activate(Windows) or source venv/bin/activate(Linux/Mac) <br />
+    - activate the virutal env: env\Scripts\activate(Windows) or source venv/bin/activate(Linux/Mac) <br />
     - run the development server : python carselling/manage.py runserver <br />
     - access the app on your browser : http://127.0.0.1:8000/cars/ <br />
