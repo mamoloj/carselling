@@ -5,7 +5,7 @@
 
 **first setup email server :** <br />
 
-  - just uncomment this information on settings.py and add your **EMAIL_HOST_USER** and **EMAIL_HOST_PASSWORD**<br /><br />
+  - just uncomment this information on settings.py and add your **EMAIL_HOST_USER** and **EMAIL_HOST_PASSWORD** for email notification<br /><br />
     DEFAULT_TO_EMAIL = ['mike@example.org']\
     DEFAULT_FROM_EMAIL = '<paste your gmail account here>'\
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'\
